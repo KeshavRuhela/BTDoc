@@ -10,7 +10,7 @@ class indexControler extends Controller
     
     
     function show_view(){
-        $data = Http::get("http://localhost/BTDoc/APIs/branches.php");
-        return view("index",['braches'=>$data]);
+        $branch_data = Http::get("http://localhost/BTDoc/APIs/branches.php");
+        return view("index",['list'=>$branch_data]);
     }
 }

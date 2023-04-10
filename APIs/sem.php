@@ -11,7 +11,7 @@
     $result = mysqli_query($conn, $query);
 
     if($result){
-        $arr = mysqli_fetch_all($result);
+        $arr = mysqli_fetch_all($result,MYSQLI_ASSOC);
         $decode_arr = json_encode($arr);
         echo $decode_arr;
     }    else{
