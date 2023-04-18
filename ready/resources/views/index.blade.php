@@ -12,18 +12,11 @@
 
     }
 
-    /* #right-sidebar-container-Home {
-        padding: 0.5rem;
-        text-align: justify;
-    } */
-
-
     .data-container {
         display: none;
         padding: 0.5rem;
         text-align: justify;
-
-
+        margin-bottom: 100px
     }
 
     .branch_code {
@@ -55,8 +48,6 @@
         padding: 0.5rem;
         margin-left: 1rem;
     }
-
-
 
 
 
@@ -99,22 +90,59 @@
             border-radius: 8px;
             padding: 0.5rem;
             margin-left: 1rem;
+
         }
 
     }
 
-    @media screen and (max-width: 410px) {
-        #right-sidebar-container-Branch{
+    @media screen and (max-width: 390px) {
+        #right-sidebar-container-Branch {
             flex-direction: column;
+        }
+
+        .branch_year_using_js {
+            background: lightgray;
+            width: fit-content;
+            /* width: 20%; */
+            border-radius: 8px;
+            padding: 0.5rem;
+            margin-left: 1rem;
+            display: flex;
+            margin: 2px;
+
+        }
+
+        .right-sidebar {
+            background: #9efe7b1a;
+            /* padding-left: 100px; */
+            width: 70%;
+            height: 100%;
+            position: fixed;
+            left: 30%;
+            overflow-y: scroll;
+            padding-left: 3px;
+            padding-bottom: 30px;
+
+        }
+
+        .side_navbar {
+            position: fixed;
+            width: 30%;
         }
     }
 </style>
+
+<!-- Login form css -->
+
+
+
+
+
 <div class="right-sidebar">
     <!-- index page -->
 
     <!-- home -->
     <div id="right-sidebar-container-Home" class="data-container" style="display:flex; ">
-        <h1 class="main-container">Home</h1>
 
 
     </div>
@@ -122,7 +150,8 @@
 
 
     <!-- Branch -->
-    <div id="right-sidebar-container-Branch" class="data-container">
+    <div id="right-sidebar-container-Branch" style="margin-bottom: 100px;" class="data-container">
+
         <ul id="branch_name">
             @for ($i=0; $i<7; $i++) <li class="branch_code" id="{{$list[$i]['branch_code']}}" onclick="print_value({{$i}})">
                 {{$list[$i]['branches']}}
@@ -139,8 +168,10 @@
     </div>
 
     <!-- Login -->
-    <div id="right-sidebar-container-Login" class="data-container">
-        <h1 class="main-container">Login</h1>
+    <div id="right-sidebar-container-Login"  class="data-container">
+        <!-- <h1 class="main-container">Login</h1> -->
+        <x-loginpage />
+
 
     </div>
 
@@ -308,6 +339,102 @@
         });
 
         // console.log(req_data);
+    }
+
+    // login user
+    function check_login() {
+
+
+        // var form_data = $('#login-form').serializeArray();
+        // console.log(form_data)
+
+
+        var form_data = $('#login-form').serializeArray();
+        console.log(form_data)
+
+
+        // console.log(JSON.stringify($('#login-form').serializeArray()));
+
+        // exit();
+
+        let url = "http://127.0.0.1:8000/api/check-login";
+        $.ajax({
+            url: url,
+            data: form_data,
+            type: "POST",
+            beforeSend: function() {
+
+            },
+            success: function(data) {
+                // .................. for each loop in jquery ....................
+
+                // $.each(data, function(i) {
+                //     console.log(data[i]['email'])
+                // });
+
+                console.log(data['data']);
+                if (data['data'] != undefined)
+                    alert("email :" + data['data']['email'], "login" + `'data[login]'`);
+                else
+                    alert(data["message"]);
+
+
+            },
+            error: function(e) {
+                console.log("Something went wrong !");
+
+            }
+        });
+
+    }
+
+    // user registration
+
+    function check_registration() {
+
+        var all_input_field = document.querySelectorAll('.all-input-field');
+        console.log(all_input_field)
+        var form_data = $('#sign-form').serializeArray();
+
+        console.log(form_data[0]['value'])
+        console.log(form_data)
+        send = true;
+        all_input_field.forEach(ele => {
+            if (ele.value == "") {
+                ele.style.border = "2px solid red";
+                send = false;
+            }
+        });
+        // form_data = $('#sign-form').serializeArray();
+        if (send) {
+
+            let url = "http://127.0.0.1:8000/api/check-registration";
+            $.ajax({
+                url: url,
+                data: form_data,
+                type: "POST",
+                beforeSend: function() {
+
+                },
+                success: function(data) {
+                    // .................. for each loop in jquery ....................
+
+                    // $.each(data, function(i) {
+                    //     console.log(data[i]['email'])
+                    // });
+                    alert(data['message'])
+
+                },
+                error: function(e) {
+                    console.log(e)
+                    alert("Something went wrong !");
+
+                }
+            });
+        }else
+            alert("Fill correctly !")
+
+
     }
 </script>
 

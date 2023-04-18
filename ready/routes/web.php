@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\HTTP\Controllers\indexControler;
+use App\HTTP\Controllers\loginController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,5 @@ use App\HTTP\Controllers\indexControler;
 //     return view('index');
 // });
 Route::get('/',[indexControler::class, 'show_view']);
+Route::post('/login',[loginController::class, 'login']);
+
